@@ -1,4 +1,4 @@
-package courseland.file.dtos;
+package courseland.clients;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package courseland.file;
 
-import courseland.file.dtos.FileResponseDto;
+import courseland.clients.FileResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -28,18 +28,22 @@ public class FileController {
 
     @PostMapping("/upload")
     public ResponseEntity<FileResponseDto> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
-        return ResponseEntity.status(HttpStatus.OK).body(fileStorageService.store(file));
+        return ResponseEntity.status(HttpStatus.OK).body(fileStorageService.uploadFile(file));
+    }
+
+    @GetMapping(value = "download/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> downloadFile(@PathVariable Long id) {
+        return ResponseEntity.ok().body(fileStorageService.downloadFile(id));
     }
 
     @GetMapping()
-    public ResponseEntity<List<FileResponseDto>> getListFiles() {
-        List<FileResponseDto> files = fileStorageService.getAllFiles();
-        return ResponseEntity.status(HttpStatus.OK).body(files);
+    public ResponseEntity<List<FileResponseDto>> getFiles() {
+        return ResponseEntity.status(HttpStatus.OK).body(fileStorageService.getAllFiles());
     }
 
-    @GetMapping(value = "/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<byte[]> downloadFile(@PathVariable Long id) {
-        return ResponseEntity.ok().body(fileStorageService.downloadFile(id));
+    @GetMapping("{id}")
+    public ResponseEntity<FileResponseDto> getFile(@PathVariable Long id) {
+        return ResponseEntity.ok(fileStorageService.getFile(id));
     }
 
     @DeleteMapping("{file-name}")

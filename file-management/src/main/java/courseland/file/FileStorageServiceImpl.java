@@ -1,6 +1,6 @@
 package courseland.file;
 
-import courseland.file.dtos.FileResponseDto;
+import courseland.clients.FileResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -19,7 +19,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     private final FileMapper fileMapper;
 
     @Override
-    public FileResponseDto store(MultipartFile multipartFile) throws IOException {
+    public FileResponseDto uploadFile(MultipartFile multipartFile) throws IOException {
         File file = new File();
         file.setName(getOriginalFileName(multipartFile));
         file.setType(multipartFile.getContentType());
@@ -51,6 +51,12 @@ public class FileStorageServiceImpl implements FileStorageService {
                     file.getType(),
                     file.getData().length);
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public FileResponseDto getFile(Long id) {
+        return fileMapper.toResponse(fileRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("File not found!")));
     }
 
     @Override

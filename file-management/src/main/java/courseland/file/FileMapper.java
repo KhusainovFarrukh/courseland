@@ -1,6 +1,6 @@
 package courseland.file;
 
-import courseland.file.dtos.FileResponseDto;
+import courseland.clients.FileResponseDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
