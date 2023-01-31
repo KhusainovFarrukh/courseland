@@ -46,9 +46,14 @@ public class FileController {
         return ResponseEntity.ok(fileStorageService.getFile(id));
     }
 
-    @DeleteMapping("{file-name}")
-    public ResponseEntity<?> deleteFile(@PathVariable(value = "file-name") Long id) {
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> deleteFile(@PathVariable Long id) {
         fileStorageService.deleteFile(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("check-file-id/{id}")
+    public void checkFileId(@PathVariable Long id) {
+        fileStorageService.checkFileId(id);
     }
 }

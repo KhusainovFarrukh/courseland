@@ -1,5 +1,6 @@
 package courseland.user;
 
+import courseland.clients.FileServiceClient;
 import courseland.user.dtos.AppUserRequestDto;
 import courseland.user.dtos.AppUserResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +15,11 @@ public class AppUserServiceImpl implements AppUserService {
 
     private final AppUserRepository userRepository;
     private final AppUserMapper userMapper;
+    private final FileServiceClient fileServiceClient;
 
     @Override
     public AppUserResponseDto createUser(AppUserRequestDto userRequestDto) {
+        fileServiceClient.checkFileId(userRequestDto.getAvatarId());
         AppUser user = userRepository.save(userMapper.toEntity(userRequestDto));
         return userMapper.toResponse(user);
     }

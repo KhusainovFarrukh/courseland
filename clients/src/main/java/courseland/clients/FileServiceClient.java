@@ -10,4 +10,7 @@ public interface FileServiceClient {
 
     @GetMapping("/api/v1/files/{id}")
     ResponseEntity<FileResponseDto> getFile(@PathVariable Long id);
+
+    @GetMapping("/api/v1/files/check-file-id/{id}")
+    void checkFileId(@PathVariable Long id);
 }

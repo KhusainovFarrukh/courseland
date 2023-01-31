@@ -4,6 +4,8 @@ import courseland.lesson.dtos.LessonRequestDto;
 import courseland.lesson.dtos.LessonResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -24,35 +26,36 @@ public class LessonController {
     private final LessonService lessonService;
 
     @PostMapping
-    public LessonResponseDto createLesson(@RequestBody LessonRequestDto requestDto) {
+    public ResponseEntity<LessonResponseDto> createLesson(@RequestBody LessonRequestDto requestDto) {
         log.info("Request to create lesson");
-        return lessonService.createLesson(requestDto);
+        return ResponseEntity.ok().body(lessonService.createLesson(requestDto));
     }
 
     @PatchMapping("{id}")
-    public LessonResponseDto updateLesson(
+    public ResponseEntity<LessonResponseDto> updateLesson(
             @PathVariable Long id,
             @RequestBody LessonRequestDto requestDto
     ) {
         log.info("Request to update lesson");
-        return lessonService.updateLesson(id, requestDto);
+        return ResponseEntity.ok().body(lessonService.updateLesson(id, requestDto));
     }
 
     @GetMapping
-    public List<LessonResponseDto> getAllLessons() {
+    public ResponseEntity<List<LessonResponseDto>> getAllLessons() {
         log.info("Request to get all lessons");
-        return lessonService.getAllLessons();
+        return ResponseEntity.ok().body(lessonService.getAllLessons());
     }
 
     @GetMapping("{id}")
-    public LessonResponseDto getLesson(@PathVariable Long id) {
+    public ResponseEntity<LessonResponseDto> getLesson(@PathVariable Long id) {
         log.info("Request to get a lesson");
-        return lessonService.getLesson(id);
+        return ResponseEntity.ok().body(lessonService.getLesson(id));
     }
 
     @DeleteMapping("{id}")
-    public void deleteLesson(@PathVariable Long id) {
+    public ResponseEntity<?> deleteLesson(@PathVariable Long id) {
         log.info("Request to delete a lesson");
         lessonService.deleteLesson(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

@@ -4,6 +4,8 @@ import courseland.user.dtos.AppUserRequestDto;
 import courseland.user.dtos.AppUserResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -24,35 +26,36 @@ public class AppUserController {
     private final AppUserService userService;
 
     @PostMapping
-    public AppUserResponseDto createUser(@RequestBody AppUserRequestDto requestDto) {
+    public ResponseEntity<AppUserResponseDto> createUser(@RequestBody AppUserRequestDto requestDto) {
         log.info("Request to create user");
-        return userService.createUser(requestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(userService.createUser(requestDto));
     }
 
     @PatchMapping("{id}")
-    public AppUserResponseDto updateUser(
+    public ResponseEntity<AppUserResponseDto> updateUser(
             @PathVariable Long id,
             @RequestBody AppUserRequestDto requestDto
     ) {
         log.info("Request to update user");
-        return userService.updateUser(id, requestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(id, requestDto));
     }
 
     @GetMapping
-    public List<AppUserResponseDto> getAllUsers() {
+    public ResponseEntity<List<AppUserResponseDto>> getAllUsers() {
         log.info("Request to get all users");
-        return userService.getAllUsers();
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUsers());
     }
 
     @GetMapping("{id}")
-    public AppUserResponseDto getUser(@PathVariable Long id) {
+    public ResponseEntity<AppUserResponseDto> getUser(@PathVariable Long id) {
         log.info("Request to get a user");
-        return userService.getUsers(id);
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getUsers(id));
     }
 
     @DeleteMapping("{id}")
-    public void deleteUser(@PathVariable Long id) {
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         log.info("Request to delete a user");
         userService.deleteUser(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

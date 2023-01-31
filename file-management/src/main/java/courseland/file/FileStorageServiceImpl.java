@@ -67,6 +67,11 @@ public class FileStorageServiceImpl implements FileStorageService {
         fileRepository.deleteById(id);
     }
 
+    @Override
+    public void checkFileId(Long id) {
+        if (!fileRepository.existsById(id)) throw new RuntimeException("File not found!");
+    }
+
     private String getOriginalFileName(MultipartFile multipartFile) {
         String originalFilename = multipartFile.getOriginalFilename();
         if (originalFilename == null || originalFilename.isBlank()) {

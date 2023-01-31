@@ -17,4 +17,6 @@ public interface FileStorageService {
     FileResponseDto getFile(Long id);
 
     void deleteFile(Long id);
+
+    void checkFileId(Long id);
 }
